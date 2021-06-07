@@ -30,16 +30,22 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', (e) => {
       e.preventDefault()
 
-      fetch(`http://localhost:3000/toys/${toy.id}`, {
+      const thisButton = e.target.id
+
+      fetch(`http://localhost:3000/toys/${thisButton}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json'
         },
         body: JSON.stringify({
-          likes: toy.likes++
+          likes: `${toy.likes++}`
         })
       })
+        .then(resp => resp.json())
+        .then(data => {
+          likes.innerHTML = `${data.likes} Likes`
+        })
     })
 
     div.append(toyName, toyImg, likes, button)
